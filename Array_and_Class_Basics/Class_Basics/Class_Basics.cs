@@ -78,16 +78,19 @@ namespace Class_Basics
             get => coordinates[0];
             set { coordinates[0] = value; }
         }
+
         public int Y
         {
             get => coordinates[1];
             set { coordinates[1] = value; }
         }
+
         public int Z
         {
             get => coordinates[2];
             set { coordinates[2] = value; }
         }
+
         public double Mass
         {
             get => mass;
@@ -98,9 +101,7 @@ namespace Class_Basics
         {
             double sqrSum = 0;
             for (int i = 0; i < Const.DIMENSIONS; i++)
-            {
-                //Мой вопрос был здесь. Почему у меня есть доступ к приватному полю через экзэмпляр класса? (destinationPoint.coordinates[i])
-                //Но потом я прочитал, что модификатoры применимы к типу, а не к инстансу,- и соотвественно коль тип тот же - доступ есть. Я прав? :)
+            { 
                 sqrSum += Math.Pow((coordinates[i] - destinationPoint.coordinates[i]), 2); 
             }
             return Math.Sqrt(sqrSum);
@@ -108,7 +109,7 @@ namespace Class_Basics
 
         public bool IsZero()
         {
-            return (int)(Math.Pow(X, 2) + Math.Pow(Y, 2) + Math.Pow(Z, 2)) == 0;
+            return (int)(X*X + Y*Y + Z*Z) == 0;
         }
     }
 }
