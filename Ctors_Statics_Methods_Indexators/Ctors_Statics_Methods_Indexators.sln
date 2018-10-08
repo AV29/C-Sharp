@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2041
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ctors_Statics_Methods_Indexators", "Ctors_Statics_Methods_Indexators\Ctors_Statics_Methods_Indexators.csproj", "{4C768421-6CA1-44FC-B117-001EC12923B4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4C768421-6CA1-44FC-B117-001EC12923B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C768421-6CA1-44FC-B117-001EC12923B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C768421-6CA1-44FC-B117-001EC12923B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C768421-6CA1-44FC-B117-001EC12923B4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0B960245-D9D0-4BE5-BDA7-A8B6438E4535}
+	EndGlobalSection
+EndGlobal
