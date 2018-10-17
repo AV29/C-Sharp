@@ -15,10 +15,9 @@ namespace Structs_Enums_Interfaces
             Key d = new Key(Note.D, Accidental.Flat, Octave.First);
 
             Console.WriteLine(c);
-            Console.WriteLine(c.Equals(d));
+            Console.WriteLine(d);
             Console.WriteLine(d.Equals(c));
-
-            Console.ReadLine();
+            Console.WriteLine(d.CompareTo(c));
         }
     }
 }

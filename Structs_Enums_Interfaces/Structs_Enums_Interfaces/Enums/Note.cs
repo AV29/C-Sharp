@@ -1,4 +1,4 @@
-﻿public enum Note: short
+﻿public enum Note: byte
 {
     Cb = 0,
     C = 1,

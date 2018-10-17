@@ -1,12 +1,12 @@
-﻿public enum Octave: short
+﻿public enum Octave: byte
 {
-    Subcontra = -3,
-    Contra = -2,
-    Big = -1,
-    Small = 0,
-    First = 1,
-    Second = 2,
-    Third = 3,
-    Fourth = 4,
-    Fifth = 5
+    Subcontra = 0,
+    Contra = 1,
+    Big = 2,
+    Small = 3,
+    First = 4,
+    Second = 5,
+    Third = 6,
+    Fourth = 7,
+    Fifth = 8
 }
