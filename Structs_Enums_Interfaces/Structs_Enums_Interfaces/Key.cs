@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Key_Struct
 {
     public struct Key : IComparable
     {
-        private Note _noteBase;
+        private readonly Note _noteBase;
 
-        private bool _outOfRange;
+        private readonly bool _outOfRange;
 
         public Note Note { get; }
 
