@@ -1,6 +1,6 @@
-﻿public enum Accidental
+﻿public enum Accidental : sbyte
 {
-    None = ' ',
-    Sharp = '#',
-    Flat = 'b'
+    None = 0,
+    Sharp = 1,
+    Flat = -1
 }

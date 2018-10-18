@@ -4,19 +4,13 @@ namespace Structs_Enums_Interfaces
 {
     public struct Key : IComparable
     {
-        private readonly Note _noteBase;
+        public byte NoteNumber { get; }
 
-        private readonly bool _outOfRange;
-
-        public Note Note { get; }
-
-        public Accidental Accidental { get; }
-
-        public Octave Octave { get; }
+        public Accidental Acc { get; }
 
         public override int GetHashCode()
         {
-            return (byte)Note ^ (byte)Accidental;
+            return (byte)NoteNumber.GetHashCode();
         }
 
         public override bool Equals(object obj)
@@ -26,25 +20,18 @@ namespace Structs_Enums_Interfaces
             {
                 return false;
             }
-
-            if (key.Octave == Octave)
-            {
-                return key.Note == Note;
-            } else if((key.Octave - Octave) == 1)
-            {
-                return (key.Note - Note) == 13 || key.Note == Note;
-            } else
-            {
-                return false;
-            }
+            return key.NoteNumber == NoteNumber;
         }
 
         public override string ToString()
         {
             string octave;
-            switch (Octave)
+            string accidental;
+            Octave oct = GetOctaveFromNoteNumber(NoteNumber);
+            Note note = GetNoteFromNoteNumber(NoteNumber);
+            switch (oct)
             {
-                case Octave.Subcontra :
+                case Octave.Subcontra:
                     {
                         octave = "subcontra";
                         break;
@@ -65,50 +52,71 @@ namespace Structs_Enums_Interfaces
                         break;
                     }
                 default:
-                    octave = $"{(byte)Octave - 3}";
+                    octave = $"{(byte)oct - 2}";
                     break;
             }
-            return $"{_noteBase}{(char)Accidental} ({octave}) {(_outOfRange ? " - Out Of Range!!!" : "")}";
+            switch (Acc)
+            {
+                case Accidental.Sharp:
+                    {
+                        accidental = "#";
+                        break;
+                    }
+                case Accidental.Flat:
+                    {
+                        accidental = "b";
+                        break;
+                    }
+                default:
+                    accidental = string.Empty;
+                    break;
+            }
+            return $"{note}{accidental} ({octave})";
         }
 
         public int CompareTo(object obj) 
         {
             Key key = (Key)obj;
-            return Math.Abs(((byte)key.Octave - (byte)Octave) * 12 + (byte)key.Note - (byte)Note);
+            return key.NoteNumber - NoteNumber;
         }
 
         public Key(Note note, Accidental accidental, Octave octave)
         {
-            _noteBase = note;
-            short accidentalOffset = 0;
-            if (accidental == Accidental.Sharp)
-            {
-                accidentalOffset = 1;
-            }
-            else if (accidental == Accidental.Flat)
-            {
-                accidentalOffset = -1;
-            }
+            Acc = accidental;
+            NoteNumber = GetNoteNumber(note, accidental, octave);
+        }
 
-            // Should consider throwing an exception here but let's just set corner values.
-
-            if (octave == Octave.Subcontra && (byte)note + accidentalOffset < 10)
+        private static byte GetNoteNumber(Note note, Accidental accidental, Octave octave)
+        {
+            if (octave == Octave.Subcontra && (byte)note + (sbyte)accidental < (byte)Note.A)
             {
-                Note = (Note)10;
-                _outOfRange = true;
+                return 1;
             }
-            else if (octave == Octave.Fifth && (byte)note + accidentalOffset > 1)
+            else if (octave == Octave.Fifth && (byte)note + (sbyte)accidental > (byte)Note.C)
             {
-                Note = (Note)1;
-                _outOfRange = true;
+                return 88;
             }
             else
             {
-                Note = (Note)((byte)note + accidentalOffset);
-                _outOfRange = false;
+                return (byte)((byte)octave * 12 + (byte)note + (sbyte)accidental + 3);
             }
-            Accidental = accidental;
-            Octave = octave;
+        }
+
+        private Octave GetOctaveFromNoteNumber(byte noteNumber)
+        {
+            if(noteNumber - (sbyte)Acc < 4)
+            {
+                return Octave.Subcontra;
+            } else
+            {
+                return (Octave)((noteNumber - (sbyte)Acc - 4) / 12);
+            }
+        }
+
+        private Note GetNoteFromNoteNumber(byte noteNumber)
+        {
+            sbyte octave = (sbyte)GetOctaveFromNoteNumber(NoteNumber);
+            return octave != -1 ? (Note)(octave * 12 + 5 + (sbyte)Acc - noteNumber) : (Note)(9 - (sbyte)Acc + noteNumber);
         }
     }
 }

@@ -6,13 +6,16 @@ namespace Structs_Enums_Interfaces
     {
         static void Main(string[] args)
         {
-            Key c = new Key(Note.C, Accidental.Sharp, Octave.First);
-            Key d = new Key(Note.D, Accidental.Flat, Octave.First);
+            Key z = new Key(Note.C, Accidental.Flat, Octave.Contra);
+            Key y = new Key(Note.C, Accidental.Flat, Octave.Fifth);
 
-            Console.WriteLine(c);
-            Console.WriteLine(d);
-            Console.WriteLine(d.Equals(c));
-            Console.WriteLine(d.CompareTo(c));
+            Console.WriteLine(z);
+            Console.WriteLine(y);
+            Console.WriteLine(y.Equals(z));
+            Console.WriteLine(z.Equals(y));
+            Console.WriteLine(y.CompareTo(z));
+            Console.WriteLine(z.CompareTo(y));
+            Console.ReadLine();
         }
     }
 }

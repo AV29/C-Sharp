@@ -1,12 +1,12 @@
-﻿public enum Octave: byte
+﻿public enum Octave: sbyte
 {
-    Subcontra = 0,
-    Contra = 1,
-    Big = 2,
-    Small = 3,
-    First = 4,
-    Second = 5,
-    Third = 6,
-    Fourth = 7,
-    Fifth = 8
+    Subcontra = -1,
+    Contra = 0,
+    Big = 1,
+    Small = 2,
+    First = 3,
+    Second = 4,
+    Third = 5,
+    Fourth = 6,
+    Fifth = 7
 }
