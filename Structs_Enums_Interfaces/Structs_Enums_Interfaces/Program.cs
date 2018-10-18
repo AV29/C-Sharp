@@ -6,7 +6,7 @@ namespace Structs_Enums_Interfaces
     {
         static void Main(string[] args)
         {
-            Key z = new Key(Note.C, Accidental.Flat, Octave.Contra);
+            Key z = new Key(Note.C, Accidental.Flat, Octave.Subcontra);
             Key y = new Key(Note.C, Accidental.Flat, Octave.Fifth);
 
             Console.WriteLine(z);

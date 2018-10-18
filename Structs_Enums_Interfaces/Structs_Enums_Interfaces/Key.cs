@@ -15,63 +15,16 @@ namespace Structs_Enums_Interfaces
 
         public override bool Equals(object obj)
         {
-            Key key = (Key)obj;
-            if (obj == null)
-            {
-                return false;
-            }
-            return key.NoteNumber == NoteNumber;
+            return obj != null && ((Key)obj).NoteNumber == NoteNumber;
         }
 
         public override string ToString()
         {
-            string octave;
-            string accidental;
-            Octave oct = GetOctaveFromNoteNumber(NoteNumber);
-            Note note = GetNoteFromNoteNumber(NoteNumber);
-            switch (oct)
-            {
-                case Octave.Subcontra:
-                    {
-                        octave = "subcontra";
-                        break;
-                    }
-                case Octave.Contra:
-                    {
-                        octave = "contra";
-                        break;
-                    }
-                case Octave.Big:
-                    {
-                        octave = "big";
-                        break;
-                    }
-                case Octave.Small:
-                    {
-                        octave = "small";
-                        break;
-                    }
-                default:
-                    octave = $"{(byte)oct - 2}";
-                    break;
-            }
-            switch (Acc)
-            {
-                case Accidental.Sharp:
-                    {
-                        accidental = "#";
-                        break;
-                    }
-                case Accidental.Flat:
-                    {
-                        accidental = "b";
-                        break;
-                    }
-                default:
-                    accidental = string.Empty;
-                    break;
-            }
-            return $"{note}{accidental} ({octave})";
+            string accidental = GetAccidentalName(Acc);
+            Octave octave = GetOctaveFromNoteNumber(NoteNumber);
+            Note note = GetNoteFromNoteNumber(NoteNumber, (sbyte)octave);
+
+            return $"{note}{accidental} ({GetOctaveName(octave)})";
         }
 
         public int CompareTo(object obj) 
@@ -102,20 +55,29 @@ namespace Structs_Enums_Interfaces
             }
         }
 
-        private Octave GetOctaveFromNoteNumber(byte noteNumber)
+        private string GetOctaveName(Octave octave) 
         {
-            if(noteNumber - (sbyte)Acc < 4)
-            {
-                return Octave.Subcontra;
-            } else
-            {
-                return (Octave)((noteNumber - (sbyte)Acc - 4) / 12);
+            return (sbyte)octave > 2 ? ((sbyte)octave - 2).ToString() : octave.ToString();
+        }
+
+        private string GetAccidentalName(Accidental acceidental) 
+        {
+            if(acceidental == Accidental.Sharp) {
+                return "#";
+            } else if(acceidental == Accidental.Flat) {
+                return "b";
+            } else {
+                return string.Empty;
             }
         }
 
-        private Note GetNoteFromNoteNumber(byte noteNumber)
+        private Octave GetOctaveFromNoteNumber(byte noteNumber)
         {
-            sbyte octave = (sbyte)GetOctaveFromNoteNumber(NoteNumber);
+            return noteNumber - (sbyte)Acc < 4 ? Octave.Subcontra : (Octave)((noteNumber - (sbyte)Acc - 4) / 12);
+        }
+
+        private Note GetNoteFromNoteNumber(byte noteNumber, sbyte octave)
+        {
             return octave != -1 ? (Note)(octave * 12 + 5 + (sbyte)Acc - noteNumber) : (Note)(9 - (sbyte)Acc + noteNumber);
         }
     }
