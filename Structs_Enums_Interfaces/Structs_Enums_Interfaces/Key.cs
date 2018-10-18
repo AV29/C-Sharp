@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Key_Struct
+namespace Structs_Enums_Interfaces
 {
     public struct Key : IComparable
     {
