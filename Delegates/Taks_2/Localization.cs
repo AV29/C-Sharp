@@ -1,58 +1,16 @@
 ﻿using System;
 namespace Taks_2
 {
-    public delegate string Localizator(Season season, Locale language);
+    public delegate string Localizator(Season season);
 
     public class Localization
     {
-        public static string GetLocalName(Season season, Locale locale) 
-        {
-            switch (locale)
-            {
-                case Locale.Ru:
-                    {
-                        return RuLocalizator(season);
-                    }
-                case Locale.Es:
-                    {
-                        return EsLocalizator(season);
-                    }
-                case Locale.En:
-                    {
-                        return EnLocalizator(season);
-                    }
-                default:
-                    return EnLocalizator(season);
-            }
-        }
-
-        public Func<Season, string> Localizator(Locale locale)
-        {
-            switch (locale)
-            {
-                case Locale.Ru:
-                    {
-                        return RuLocalizator;
-                    }
-                case Locale.Es:
-                    {
-                        return EsLocalizator;
-                    }
-                case Locale.En:
-                    {
-                        return EnLocalizator;
-                    }
-                default:
-                    return EnLocalizator;
-            }
-        }
-
-        public static string EnLocalizator(Season season)
+        public static string En(Season season)
         {
             return season.ToString();
         }
 
-        public static string EsLocalizator(Season season)
+        public static string Es(Season season)
         {
             switch (season)
             {
@@ -76,7 +34,7 @@ namespace Taks_2
             }
         }
 
-        public static string RuLocalizator(Season season)
+        public static string Ru(Season season)
         {
             switch (season)
             {
