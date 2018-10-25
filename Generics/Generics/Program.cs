@@ -31,6 +31,9 @@ namespace Generics
             Console.WriteLine(string_stack);
 
             Console.WriteLine(int_stack.Reverse());
+            Console.WriteLine(int_stack);
+
+            Console.ReadLine();
 
         }
     }
