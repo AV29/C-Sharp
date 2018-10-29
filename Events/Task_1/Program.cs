@@ -6,16 +6,16 @@ namespace Task_1
     class MainClass
     {
 
-        public static void Print(Object sender, MinChangedEventArgs e) 
+        public static void HandleMinChangedPrint(Object sender, MinChangedEventArgs e) 
         {
-            WriteLine();
+            WriteLine($"Sender {sender}; New Min ${e.NewMin}");
         }
 
         public static void Main(string[] args)
         {
             var c = new Counter();
             c.Count(-10);
-            c.MinChanged += Print;
+            c.MinChanged += HandleMinChangedPrint;
             c.Count(-20);
             ReadLine();
         }
