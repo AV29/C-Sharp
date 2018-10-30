@@ -8,7 +8,7 @@ namespace Task_1
 
         public static void HandleMinChangedPrint(Object sender, MinChangedEventArgs e) 
         {
-            WriteLine($"Sender {sender}; New Min ${e.NewMin}");
+            WriteLine($"Min changed in '{sender}'; New min: {e.NewMin}");
         }
 
         public static void Main(string[] args)
@@ -16,18 +16,15 @@ namespace Task_1
             var c = new Counter();
             c.Count(-10);
             c.MinChanged += HandleMinChangedPrint;
+            c.MinChanged += HandleMinChangedPrint;
+            c.MinChanged += HandleMinChangedPrint;
+            c.MinChanged += HandleMinChangedPrint;
             c.Count(-20);
-            ReadLine();
         }
     }
 }
 
 /*
-Модифицируйте класс Counter, показанный в презентации №12, 
-чтобы с событием MinChanged в объекте этого класса нельзя было связать более трёх обработчиков. 
-Продемонстрируйте работу с событием на примерах.
-
-
 Создайте класс Matrix<T> для преставления прямоугольной матрицы с элементами типа T. 
 Опишите в классе событие ItemChanged, которое происходит после изменения элемента матрицы. 
 Передавайте в обработчик события индексы элемента, старое и новое значение элемента.

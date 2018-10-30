@@ -2,13 +2,39 @@
 namespace Task_1
 {
 
-    //public delegate void Handler(int x);
-
     public class Counter
     {
         private int _counter;
+
         private int _min;
-        private  EventHandler<MinChangedEventArgs> Slots;
+
+        private event EventHandler<MinChangedEventArgs> _minChangedEvent;
+
+        public override string ToString()
+        {
+            return "Counter";
+        }
+
+        public event EventHandler<MinChangedEventArgs> MinChanged
+        {
+            add
+            {
+                if (_minChangedEvent == null || _minChangedEvent.GetInvocationList().Length < 3)
+                {
+                    _minChangedEvent += value;
+                }
+                else
+                {
+                    Console.WriteLine("Use of more than 3 subscribers for MinChanged event is forbidden.");
+                }
+            }
+
+            remove => _minChangedEvent -= value;
+        }
+
+        protected virtual void OnMinChanged(MinChangedEventArgs e) {
+            _minChangedEvent?.Invoke(this, e);
+        }
 
         public void Count(int count)
         {
@@ -18,28 +44,6 @@ namespace Task_1
                 _min = _counter;
                 OnMinChanged(new MinChangedEventArgs(_min));
             }
-        }
-
-        public override string ToString()
-        {
-            return "Counter";
-        }
-
-        public event EventHandler<MinChangedEventArgs> MinChanged 
-        {
-            add
-            {
-                Delegate.Combine(Slots, value);
-            }
-
-            remove
-            {
-                Delegate.Remove(Slots, value);
-            }
-        }
-
-        protected virtual void OnMinChanged(MinChangedEventArgs e) {
-            MinChanged?.Invoke(this, e);
         }
     }
 }
