@@ -1,12 +1,15 @@
 ﻿using System;
+using Anton.Events;
+using Counters;
 using static System.Console;
 
-namespace Task_1
+
+namespace Main
 {
-    class MainClass
+    public class MainClass
     {
 
-        public static void HandleMinChangedPrint(Object sender, MinChangedEventArgs e) 
+        public static void HandleMinChangedPrint(Object sender, MinChangedEventArgs e)
         {
             WriteLine($"Min changed in '{sender}'; New min: {e.NewMin}");
         }
@@ -23,9 +26,3 @@ namespace Task_1
         }
     }
 }
-
-/*
-Создайте класс Matrix<T> для преставления прямоугольной матрицы с элементами типа T. 
-Опишите в классе событие ItemChanged, которое происходит после изменения элемента матрицы. 
-Передавайте в обработчик события индексы элемента, старое и новое значение элемента.
-*/

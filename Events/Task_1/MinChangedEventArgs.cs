@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Task_1
+namespace Anton.Events
 {
     public class MinChangedEventArgs: EventArgs
     {

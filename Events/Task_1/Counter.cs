@@ -1,5 +1,7 @@
 ﻿using System;
-namespace Task_1
+using Anton.Events;
+
+namespace Counters
 {
 
     public class Counter
