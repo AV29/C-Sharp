@@ -1,12 +1,13 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
+using System.Collections;
 using System.Collections.Generic;
-using System;
 
 namespace SparseMatrixSpace
 {
-    public class SparseMatrix
+    public class SparseMatrix: IEnumerable<int>
     {
-        private Dictionary<(int, int), int> _store;
+        private Dictionary<(int, int), int> store;
 
         public int Size { get; }
 
@@ -16,32 +17,45 @@ namespace SparseMatrixSpace
         {
             get { 
                 if(CheckIndex(i) && CheckIndex(j)) {
-                    return _store.ContainsKey((i, j)) ? _store[(i, j)] : 0;
+                    return store.ContainsKey((i, j)) ? store[(i, j)] : 0;
                 }  else {
                     throw new ArgumentOutOfRangeException();
                 }
             }
         }
 
-        public SparseMatrix(int size, int maxZerosPersentage = 85)
+        public SparseMatrix(int size, int maxFillPersentage = 15)
         {
             Random random = new Random();
-            int fillPercentage = random.Next(7, 15);
+            int fillPercentage = random.Next(1, maxFillPersentage);
             FillPercentage = fillPercentage;
             Size = size;
-            _store = new Dictionary<(int, int), int>();
+            store = new Dictionary<(int, int), int>();
             for (int i = 0; i < size * size * fillPercentage / 100; i++)
             {
-                _store[((int)random.Next(0, Size), (int)random.Next(0, Size))] = (int)random.Next(1, 10);
+                store[((int)random.Next(0, Size), (int)random.Next(0, Size))] = (int)random.Next(1, 10);
             }
+        }
+
+        public IEnumerator<int> GetEnumerator()
+        {
+            for (int i = 0; i < Size; i++)
+            {
+                yield return this[i, i];
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         public int CheckCount(int x) {
             if(x == 0) {
-                return Size * Size - _store.Count;
+                return Size * Size - store.Count;
             } else {
                 int count = 0;
-                foreach(int value in _store.Values) {
+                foreach(int value in store.Values) {
                     if (value == x) count++;
                 }
                 return count;
@@ -50,8 +64,8 @@ namespace SparseMatrixSpace
 
         public int Track() {
             int result = 0;
-            for (int i = 0; i < Size; i++) {
-                result += this[i, i];
+            foreach (var value in this) {
+                result += value;
             }
             return result;
         }

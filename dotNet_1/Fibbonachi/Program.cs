@@ -1,36 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
+using System.Linq;
 
 namespace Fibbonachi
 {
-    class MainClass
+    static class MainClass
     {
-        public static void Main(string[] args)
+        private static void Main(string[] args)
         {
+            Console.WriteLine("----------------- With Regular Method --------------------");
             Console.WriteLine("Hello World!");
-            foreach (var i in TakeNFibs(0, 1, 25)) {
+            foreach (var i in FibonacciHelper.TakeNFibs(0, 1, 10)) {
                 Console.WriteLine(i);
             }
-        }
-
-        public static IEnumerable<BigInteger> TakeNFibs(BigInteger start1, BigInteger start2, int amount)
-        {
-            foreach (BigInteger i in Fibonacchi(start1, start2))
+            Console.WriteLine("----------------- With LINQ --------------------");
+            foreach (var i in FibonacciHelper.Fibonacchi(0, 1).Take(10))
             {
-                if (amount == 0) yield break;
-                amount--;
-                yield return i;
+                Console.WriteLine(i);
             }
-        }
-
-        public static IEnumerable<BigInteger> Fibonacchi(BigInteger f0, BigInteger f1) {
-            yield return f0;
-            yield return f1;
-            while (true)
+            Console.WriteLine("----------------- With Extension Method --------------------");
+            foreach (var i in FibonacciHelper.Fibonacchi(0, 1).TakeFibs(10))
             {
-                (f0, f1) = (f1, f0 + f1); //кортежный хак - помещаем в f0 f1, а в f1 - f0+f1 налету, до того как f0 поменялось))
-                yield return f1;
+                Console.WriteLine(i);
             }
         }
     }
