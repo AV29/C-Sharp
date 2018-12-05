@@ -9,9 +9,9 @@ namespace SparseMatrixSpace
     {
         private Dictionary<(int, int), int> store;
 
-        public int Size { get; }
+        private int fillPercentage;
 
-        public int FillPercentage { get; }
+        public int Size { get; }
 
         public int this[int i, int j]
         {
@@ -22,18 +22,26 @@ namespace SparseMatrixSpace
                     throw new ArgumentOutOfRangeException();
                 }
             }
+
+            set {
+                if(CheckIndex(i) && CheckIndex(j) && value != 0) {
+                    store[(i, j)] = value;
+                }
+            }
         }
 
-        public SparseMatrix(int size, int maxFillPersentage = 15)
+        public SparseMatrix(int size, bool autoGenerate = true)
         {
-            Random random = new Random();
-            int fillPercentage = random.Next(1, maxFillPersentage);
-            FillPercentage = fillPercentage;
             Size = size;
             store = new Dictionary<(int, int), int>();
-            for (int i = 0; i < size * size * fillPercentage / 100; i++)
+            if (autoGenerate)
             {
-                store[((int)random.Next(0, Size), (int)random.Next(0, Size))] = (int)random.Next(1, 10);
+                Random random = new Random();
+                fillPercentage = random.Next(1, 15);
+                for (int i = 0; i < size * size * fillPercentage / 100; i++)
+                {
+                    store[((int)random.Next(0, Size), (int)random.Next(0, Size))] = (int)random.Next(1, 10);
+                }
             }
         }
 
@@ -80,6 +88,10 @@ namespace SparseMatrixSpace
                     result.Append($"{this[i, j]} ");
                 }
                 result.AppendLine();
+            }
+            result.AppendLine();
+            if(fillPercentage != 0) {
+                result.Append($"{fillPercentage}% of matrix is filled with non-Zero values");
             }
             return result.ToString();
         }

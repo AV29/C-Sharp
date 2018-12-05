@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
 
-namespace Fibbonachi
+namespace Fibbonacci
 {
     public static class FibonacciHelper
     {
         public static IEnumerable<BigInteger> TakeNFibs(BigInteger start1, BigInteger start2, int amount)
         {
-            foreach (BigInteger i in Fibonacchi(start1, start2))
+            foreach (BigInteger i in Fibonacci(start1, start2))
             {
                 if (amount == 0) yield break;
                 amount--;
@@ -25,7 +25,7 @@ namespace Fibbonachi
             }
         }
 
-        public static IEnumerable<BigInteger> Fibonacchi(BigInteger f0, BigInteger f1)
+        public static IEnumerable<BigInteger> Fibonacci(BigInteger f0, BigInteger f1)
         {
             yield return f0;
             yield return f1;

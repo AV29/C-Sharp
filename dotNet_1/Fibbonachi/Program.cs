@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Fibbonachi
+namespace Fibbonacci
 {
     static class MainClass
     {
@@ -13,12 +13,12 @@ namespace Fibbonachi
                 Console.WriteLine(i);
             }
             Console.WriteLine("----------------- With LINQ --------------------");
-            foreach (var i in FibonacciHelper.Fibonacchi(0, 1).Take(10))
+            foreach (var i in FibonacciHelper.Fibonacci(0, 1).Take(10))
             {
                 Console.WriteLine(i);
             }
             Console.WriteLine("----------------- With Extension Method --------------------");
-            foreach (var i in FibonacciHelper.Fibonacchi(0, 1).TakeFibs(10))
+            foreach (var i in FibonacciHelper.Fibonacci(0, 1).TakeFibs(10))
             {
                 Console.WriteLine(i);
             }
