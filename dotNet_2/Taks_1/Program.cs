@@ -8,17 +8,34 @@ namespace Taks_1
     {
         public static void Main(string[] args)
         {
+            var months = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
             var vacations = GenerateVacations(10, 2018);
 
             var averageVacationInfo = vacations
                 .GroupBy(vacation => vacation.name)
-                .Select(group => new { Name = group.Key, Average = (int)group.Average(v => (v.end - v.start).Days) });
+                .Select(group => new { 
+                    Name = group.Key, 
+                    AverageLength = (int)group.Average(v => (v.end - v.start).Days) 
+                });
 
-            var overallAverageVacationLength = (int)averageVacationInfo.Average(info => info.Average);
+            var overallAverageVacationLength = (int)averageVacationInfo.Average(info => info.AverageLength);
 
-            var perMonthVacationsInfo = Enumerable
-                .Range(1, 12)
-                .Select(month => new { Month = month, EmployeesCount = vacations.Count(v => v.end.Month >= month && v.start.Month <= month) });
+            var perMonthVacationsInfo = months
+                .Select(month => new { 
+                    Month = month, 
+                    EmployeesCount = vacations.Count(v => v.end.Month >= month && v.start.Month <= month) 
+                });
+
+            var noVacationInfo = vacations
+                .GroupBy(vacation => vacation.name)
+                .Select(group => new {
+                    Name = group.Key,
+                    FreeMonths = string.Join(" ", months
+                                             .Where(month => group
+                                                    .All(v => v.end.Month < month || v.start.Month > month)
+                                                   )
+                                            )
+                });
 
             Console.WriteLine("----------------All-----------------");
             foreach (var item in vacations)
@@ -40,6 +57,11 @@ namespace Taks_1
                 Console.WriteLine(item);
             }
             Console.WriteLine();
+            Console.WriteLine("------------ No Vacations Info ----------------");
+            foreach (var item in noVacationInfo)
+            {
+                Console.WriteLine(item);
+            }
         }
 
         public static List<(DateTime start, DateTime end, string name)> GenerateVacations(int count, int year)
