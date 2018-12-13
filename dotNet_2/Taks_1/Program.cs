@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Collections;
-using System.Text;
 using System.Collections.Generic;
 namespace Taks_1
 {
@@ -11,7 +9,7 @@ namespace Taks_1
         {
             var months = Enumerable.Range(1, 12);
             
-            var vacations = GenerateVacations(10, 2018);
+            var vacations = Helper.GenerateVacations(10, 2018);
 
             var averageVacationInfo = vacations
                 .GroupBy(vacation => vacation.name)
@@ -37,13 +35,15 @@ namespace Taks_1
 
             var validVacationsInfo = vacations
                 .GroupBy(vacation => vacation.name)
-                .Select(group => {
-                    var orderedVacations = group.OrderBy(vac => vac.start.Month).ToArray();
-                    var notIntercectable = orderedVacations.TakeWhile((vac, i) => {
-                        return i <= orderedVacations.Length - 1 && vac.end.Month > orderedVacations[i + 1].start.Month;
-                    });
-                    Console.WriteLine(notIntercectable.Count());
-                    return new { Name = group.Key, ValidVacations = notIntercectable.Count() == orderedVacations.Count()};
+                .Select(group => new {
+                    Name = group.Key,
+                    IsValidVacations = group
+                        .OrderBy(vac => vac.start.Month)
+                        .Aggregate(new List<int>(), (acc, item) => {
+                            acc.AddRange(new List<int>() { item.start.Month, item.end.Month });
+                            return acc;
+                        })
+                        .IsSorted()
                 });
 
             Console.WriteLine("----------------All-----------------");
@@ -85,22 +85,8 @@ namespace Taks_1
             Console.WriteLine("------------ Valid Vacations Info ----------------");
             foreach (var item in validVacationsInfo)
             {
-                Console.WriteLine(item);
+                Console.WriteLine($"Name = {item.Name}, Vacations are valid = {string.Join(" ", item.IsValidVacations)}");
             }
-        }
-
-        public static List<(DateTime start, DateTime end, string name)> GenerateVacations(int count, int year)
-        {
-            string[] names = new string[] { "John", "Peter", "Michael", "Anna", "Sara", "David", "Frank", "Alfred" };
-            var vacations = new List<(DateTime, DateTime, string)>(count);
-            Random random = new Random();
-            for (int i = 0; i < count; i++)
-            {
-                DateTime startDate = new DateTime(year, random.Next(5, 9), 15);
-                DateTime endDate = new DateTime(year, random.Next(7, 10), 15);
-                vacations.Add((startDate, endDate, names[random.Next(1, names.Length)]));
-            }
-            return vacations;
         }
     }
 }
