@@ -17,16 +17,16 @@ namespace Taks_1
             return true;
         }
 
-        public static List<(DateTime start, DateTime end, string name)> GenerateVacations(int count, int year)
+        public static List<Vacation> GenerateVacations(int count, int year)
         {
             string[] names = new string[] { "John", "Peter", "Michael", "Anna", "Sara", "David", "Frank", "Alfred" };
-            var vacations = new List<(DateTime, DateTime, string)>(count);
+            var vacations = new List<Vacation>(count);
             Random random = new Random();
             for (int i = 0; i < count; i++)
             {
                 DateTime startDate = new DateTime(year, random.Next(5, 9), 15);
                 DateTime endDate = new DateTime(year, random.Next(7, 10), 15);
-                vacations.Add((startDate, endDate, names[random.Next(1, names.Length)]));
+                vacations.Add(new Vacation(startDate, endDate, names[random.Next(1, names.Length)]));
             }
             return vacations;
         }

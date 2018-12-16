@@ -12,10 +12,10 @@ namespace Taks_1
             var vacations = Helper.GenerateVacations(10, 2018);
 
             var averageVacationInfo = vacations
-                .GroupBy(vacation => vacation.name)
+                .GroupBy(vacation => vacation.EmployeeName)
                 .Select(group => new { 
                     Name = group.Key, 
-                    AverageLength = (int)group.Average(v => (v.end - v.start).Days) 
+                    AverageLength = (int)group.Average(v => v.Length) 
                 });
 
             var overallAverageVacationLength = (int)averageVacationInfo.Average(info => info.AverageLength);
@@ -23,28 +23,28 @@ namespace Taks_1
             var perMonthVacationsInfo = months
                 .Select(month => new { 
                     Month = month, 
-                    EmployeesCount = vacations.Count(v => v.end.Month >= month && v.start.Month <= month) 
+                    EmployeesCount = vacations.Count(v => v.EndDate.Month >= month && v.StartDate.Month <= month) 
                 });
 
-            var noVacationInfo = vacations
-                .GroupBy(vacation => vacation.name)
-                .Select(group => new {
-                    Name = group.Key,
-                    FreeMonths = months.Where(month => group.All(v => v.end.Month < month || v.start.Month > month))
-                });
+            //var noVacationInfo = vacations
+            //    .GroupBy(vacation => vacation.EmployeeName)
+            //    .Select(group => new {
+            //        Name = group.Key,
+            //        FreeMonths = months.Where(month => group.All(v => v.end.Month < month || v.start.Month > month))
+            //    });
 
-            var validVacationsInfo = vacations
-                .GroupBy(vacation => vacation.name)
-                .Select(group => new {
-                    Name = group.Key,
-                    IsValidVacations = group
-                        .OrderBy(vac => vac.start.Month)
-                        .Aggregate(new List<int>(), (acc, item) => {
-                            acc.AddRange(new List<int>() { item.start.Month, item.end.Month });
-                            return acc;
-                        })
-                        .IsSorted()
-                });
+            //var validVacationsInfo = vacations
+                //.GroupBy(vacation => vacation.EmployeeName)
+                //.Select(group => new {
+                //    Name = group.Key,
+                //    IsValidVacations = group
+                //        .OrderBy(vac => vac.start.Month)
+                //        .Aggregate(new List<int>(), (acc, item) => {
+                //            acc.AddRange(new List<int>() { item.start.Month, item.end.Month });
+                //            return acc;
+                //        })
+                //        .IsSorted()
+                //});
 
             Console.WriteLine("----------------All-----------------");
             foreach (var item in vacations)
@@ -74,19 +74,19 @@ namespace Taks_1
             Console.WriteLine();
 
 
-            Console.WriteLine("------------ No Vacations Info ----------------");
-            foreach (var item in noVacationInfo)
-            {
-                   Console.WriteLine($"Name = {item.Name}, FreeMonths = [{string.Join(" ", item.FreeMonths)}]");
-            }
-            Console.WriteLine();
+            //Console.WriteLine("------------ No Vacations Info ----------------");
+            //foreach (var item in noVacationInfo)
+            //{
+            //       Console.WriteLine($"Name = {item.Name}, FreeMonths = [{string.Join(" ", item.FreeMonths)}]");
+            //}
+            //Console.WriteLine();
 
 
-            Console.WriteLine("------------ Valid Vacations Info ----------------");
-            foreach (var item in validVacationsInfo)
-            {
-                Console.WriteLine($"Name = {item.Name}, Vacations are valid = {string.Join(" ", item.IsValidVacations)}");
-            }
+            //Console.WriteLine("------------ Valid Vacations Info ----------------");
+            //foreach (var item in validVacationsInfo)
+            //{
+            //    Console.WriteLine($"Name = {item.Name}, Vacations are valid = {string.Join(" ", item.IsValidVacations)}");
+            //}
         }
     }
 }
