@@ -26,12 +26,12 @@ namespace Taks_1
                     EmployeesCount = vacations.Count(v => v.EndDate.Month >= month && v.StartDate.Month <= month) 
                 });
 
-            //var noVacationInfo = vacations
-            //    .GroupBy(vacation => vacation.EmployeeName)
-            //    .Select(group => new {
-            //        Name = group.Key,
-            //        FreeMonths = months.Where(month => group.All(v => v.end.Month < month || v.start.Month > month))
-            //    });
+            var noVacationInfo = vacations
+                .GroupBy(vacation => vacation.EmployeeName)
+                .Select(group => new {
+                    Name = group.Key,
+                    FreeMonths = months.Where(month => group.All(v => v.EndDate.Month < month || v.StartDate.Month > month))
+                });
 
             //var validVacationsInfo = vacations
                 //.GroupBy(vacation => vacation.EmployeeName)
@@ -74,12 +74,12 @@ namespace Taks_1
             Console.WriteLine();
 
 
-            //Console.WriteLine("------------ No Vacations Info ----------------");
-            //foreach (var item in noVacationInfo)
-            //{
-            //       Console.WriteLine($"Name = {item.Name}, FreeMonths = [{string.Join(" ", item.FreeMonths)}]");
-            //}
-            //Console.WriteLine();
+            Console.WriteLine("------------ No Vacations Info ----------------");
+            foreach (var item in noVacationInfo)
+            {
+                   Console.WriteLine($"Name = {item.Name}, FreeMonths = [{string.Join(" ", item.FreeMonths)}]");
+            }
+            Console.WriteLine();
 
 
             //Console.WriteLine("------------ Valid Vacations Info ----------------");

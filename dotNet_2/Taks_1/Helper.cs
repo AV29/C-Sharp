@@ -24,8 +24,8 @@ namespace Taks_1
             Random random = new Random();
             for (int i = 0; i < count; i++)
             {
-                DateTime startDate = new DateTime(year, random.Next(5, 9), 15);
-                DateTime endDate = new DateTime(year, random.Next(7, 10), 15);
+                DateTime startDate = new DateTime(year, random.Next(1, 9), 15);
+                DateTime endDate = new DateTime(year, random.Next(7, 13), 15);
                 vacations.Add(new Vacation(startDate, endDate, names[random.Next(1, names.Length)]));
             }
             return vacations;
