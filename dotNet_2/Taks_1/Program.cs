@@ -7,44 +7,13 @@ namespace Taks_1
     {
         public static void Main(string[] args)
         {
-            var months = Enumerable.Range(1, 12);
-            
-            var vacations = Helper.GenerateVacations(10, 2018);
+            const int year = 2018;
 
-            var averageVacationInfo = vacations
-                .GroupBy(vacation => vacation.EmployeeName)
-                .Select(group => new { 
-                    Name = group.Key, 
-                    AverageLength = (int)group.Average(v => v.Length) 
-                });
+            var allYearMonths = Enumerable.Range(1, 12);
 
-            var overallAverageVacationLength = (int)averageVacationInfo.Average(info => info.AverageLength);
+            var allYearDates = Helper.GetAllYearDays(year);
 
-            var perMonthVacationsInfo = months
-                .Select(month => new { 
-                    Month = month, 
-                    EmployeesCount = vacations.Count(v => v.EndDate.Month >= month && v.StartDate.Month <= month) 
-                });
-
-            var noVacationInfo = vacations
-                .GroupBy(vacation => vacation.EmployeeName)
-                .Select(group => new {
-                    Name = group.Key,
-                    FreeMonths = months.Where(month => group.All(v => v.EndDate.Month < month || v.StartDate.Month > month))
-                });
-
-            //var validVacationsInfo = vacations
-                //.GroupBy(vacation => vacation.EmployeeName)
-                //.Select(group => new {
-                //    Name = group.Key,
-                //    IsValidVacations = group
-                //        .OrderBy(vac => vac.start.Month)
-                //        .Aggregate(new List<int>(), (acc, item) => {
-                //            acc.AddRange(new List<int>() { item.start.Month, item.end.Month });
-                //            return acc;
-                //        })
-                //        .IsSorted()
-                //});
+            var vacations = Helper.GenerateVacations(10, year);
 
             Console.WriteLine("----------------All-----------------");
             foreach (var item in vacations)
@@ -54,6 +23,16 @@ namespace Taks_1
             Console.WriteLine();
 
 
+            #region Average vacation length
+
+            var averageVacationInfo = vacations
+                .GroupBy(vacation => vacation.EmployeeName)
+                .Select(group => new { 
+                    Name = group.Key, 
+                    AverageLength = (int)group.Average(v => v.Length) 
+                });
+
+
             Console.WriteLine("------------ Average Vacation Info ----------------");
             foreach (var item in averageVacationInfo)
             {
@@ -61,10 +40,26 @@ namespace Taks_1
             }
             Console.WriteLine();
 
+            #endregion
+
+
+            #region Overall average vacation length
+
+            var overallAverageVacationLength = (int)averageVacationInfo.Average(info => info.AverageLength);
 
             Console.WriteLine($"Overall average vacation length = {overallAverageVacationLength}");
             Console.WriteLine();
 
+            #endregion
+
+
+            #region Vocations Per Month
+
+            var perMonthVacationsInfo = allYearMonths
+                .Select(month => new { 
+                    Month = month, 
+                    EmployeesCount = vacations.Count(v => v.EndDate.Month >= month && v.StartDate.Month <= month) 
+                });
 
             Console.WriteLine("------------ Per Month Vacations Info ----------------");
             foreach (var item in perMonthVacationsInfo)
@@ -73,20 +68,44 @@ namespace Taks_1
             }
             Console.WriteLine();
 
+            #endregion
+
+
+            #region Dates without vacations for all employess
+
+            var noVacationDatesInfo = allYearDates.Where(date => !vacations.SelectMany(vac => vac).Contains(date));
 
             Console.WriteLine("------------ No Vacations Info ----------------");
-            foreach (var item in noVacationInfo)
+            foreach (var item in noVacationDatesInfo)
             {
-                   Console.WriteLine($"Name = {item.Name}, FreeMonths = [{string.Join(" ", item.FreeMonths)}]");
+                Console.WriteLine(item);
             }
             Console.WriteLine();
 
+            #endregion
 
-            //Console.WriteLine("------------ Valid Vacations Info ----------------");
-            //foreach (var item in validVacationsInfo)
-            //{
-            //    Console.WriteLine($"Name = {item.Name}, Vacations are valid = {string.Join(" ", item.IsValidVacations)}");
-            //}
+
+            #region Vacations Validation
+
+            var validVacationsInfo = vacations
+                .GroupBy(vacation => vacation.EmployeeName)
+                .Select(group => new
+                {
+                    Name = group.Key,
+                    ValidVacations = group.Count() == 1 || !group.SelectMany(v => v).ToList().HasDuplicates()
+                });
+
+
+            
+            Console.WriteLine("------------ Vacations Validation Info ----------------");
+            foreach (var item in validVacationsInfo)
+            {
+                Console.WriteLine($"Name = {item.Name}, Vacations are valid = {item.ValidVacations}");
+            }
+
+            Console.ReadLine();
+
+            #endregion
         }
     }
 }
