@@ -49,7 +49,7 @@ namespace Taks_1
             var result = new HashSet<DateTime>();
             var start = new DateTime(year, 1, 1);
             var end = new DateTime(year, 12, 31);
-            for (DateTime date = start; date < end; date = date.AddDays(1))
+            for (DateTime date = start; date <= end; date = date.AddDays(1))
             {
                 result.Add(date);
             }

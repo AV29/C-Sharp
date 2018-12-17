@@ -7,9 +7,15 @@ namespace Taks_1
     {
         #region Properties
 
+        private DateTime _endDate;
+
         public DateTime StartDate { get; set; }
 
-        public DateTime EndDate { get; set; }
+        public DateTime EndDate
+        {
+            get => _endDate;
+            set => _endDate = value <= StartDate ? value.AddDays(1) : value;
+        }
 
         public int Length { get; }
 
